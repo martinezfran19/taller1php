@@ -119,7 +119,7 @@ class AccountDao
         return $this->toJson("Error", $validateMessage);
     }
 
-    public function update($id, $data)
+    public function update($data)
     {
         $validateMessage = $this->validateData($data);
         if (hash_equals($validateMessage, "ok")) {
@@ -130,11 +130,11 @@ class AccountDao
             $statement->bindParam(3, $data['codigoSeguridad']);
             $statement->bindParam(4, $data['saldoDisponible']);
             $statement->bindParam(5, $data['email']);
-            $statement->bindParam(6, $id);
+            $statement->bindParam(6, $data['id']);
 
             $statement->execute();
 
-            $result = $this->getAccount($id);
+            $result = $this->getAccount($data['id']);
             $persona = $this->person->getBy("id", $result[0]['idPersona']);
             $result[0]["Titular"] = $persona[0];
             return $this->toJson("Registro actualizado", $result);
@@ -153,5 +153,13 @@ class AccountDao
 
         $statement->execute();
         return $this->toJson("Registro eliminado", $result);
+    }
+
+    public function deleteByPerson($idPerson)
+    {
+        $statement = $this->conection->prepare("DELETE FROM cuenta WHERE idPersona = ?");
+        $statement->bindParam(1, $idPerson);
+
+        $statement->execute();
     }
 }

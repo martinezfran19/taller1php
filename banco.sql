@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cuenta` (
   `id` int(11) NOT NULL,
-  `idPersona` int(11) NOT NULL,
+  `idPersona` int(11) NOT,
   `tipoCuenta` varchar(50) NOT NULL,
   `numeroCuenta` int(15) NOT NULL,
   `ultimoMovimiento` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),

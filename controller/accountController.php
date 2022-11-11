@@ -24,16 +24,41 @@ class AccountController
 
     public function store($data)
     {
-        return $this->account->store($data);
+        if (
+            isset($data['tipoCuenta'])
+            && isset($data['numeroCuenta'])
+            && isset($data['codigoSeguridad'])
+            && isset($data['saldoDisponible'])
+            && isset($data['email'])
+        ) {
+            return $this->account->store($data);
+        } else {
+            return "No se recibieron los campos necesarios";
+        }
     }
 
-    public function update($id, $data)
+    public function update($data)
     {
-        return $this->account->update($id, $data);
+        if (
+            isset($data['tipoCuenta'])
+            && isset($data['numeroCuenta'])
+            && isset($data['codigoSeguridad'])
+            && isset($data['saldoDisponible'])
+            && isset($data['email'])
+            && isset($data['id'])
+        ) {
+            return $this->account->update($data);
+        } else {
+            return "No se recibieron los campos necesarios";
+        }
     }
 
-    public function delete($id)
+    public function delete($data)
     {
-        return $this->delete($id);
+        if (isset($data['id'])) {
+            return $this->account->delete($data['id']);
+        } else {
+            return "No se recibió el id";
+        }
     }
 }

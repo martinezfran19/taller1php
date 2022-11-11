@@ -97,7 +97,7 @@ class PersonDao
         return $this->toJson("Error", $validateMessage);
     }
 
-    public function update($id, $data)
+    public function update($data)
     {
         $validateMessage = $this->validateData($data);
         if (hash_equals($validateMessage, "ok")) {
@@ -107,7 +107,7 @@ class PersonDao
             $statement->bindParam(1, $data['identificacion']);
             $statement->bindParam(2, $data['nombres']);
             $statement->bindParam(3, $data['apellidos']);
-            $statement->bindParam(4, $id);
+            $statement->bindParam(4, $data['id']);
 
             $statement->execute();
 
