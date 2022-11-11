@@ -29,7 +29,7 @@ class AccountController
 
     public function update($id, $data)
     {
-        return $this->accoutn->update($id, $data);
+        return $this->account->update($id, $data);
     }
 
     public function delete($id)
@@ -37,5 +37,3 @@ class AccountController
         return $this->delete($id);
     }
 }
-
-$data = json_decode(file_get_contents("php://input"), true);

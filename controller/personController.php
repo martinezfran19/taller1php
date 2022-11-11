@@ -33,7 +33,7 @@ class PersonController
     }
 
     public function delete($id){
-        return $this->person->delete(($id));
+        return $this->person->delete($id);
     }
 }
 

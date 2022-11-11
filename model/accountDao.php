@@ -21,8 +21,8 @@ class AccountDao
         $codigoSeguridad = $data['codigoSeguridad'];
         $saldoDisponible = $data['saldoDisponible'];
 
-        $numeros = "123456789";
-        $saldo = "123456789.,";
+        $numeros = "0123456789";
+        $saldo = "0123456789.,";
 
         if ($codigoSeguridad < 0) {
             return "El codigo de seguridad no puede ser negativo";
@@ -55,9 +55,9 @@ class AccountDao
         ]);
     }
 
-    public function getPerson($id)
+    public function getAccount($id)
     {
-        return $this->person->getBy("id", $id);
+        return $this->getBy("id", $id);
     }
 
     public function getAll()
@@ -69,7 +69,7 @@ class AccountDao
         $this->conection = null;
         for ($i = 0; $i < count($result); $i++) {
             $idPersona = $result[$i]['idPersona'];
-            $result[$i]['data_fk'] = $this->getPerson($idPersona);
+            $result[$i]['data_fk'] = $this->person->getBy("id", $idPersona);
         }
 
         return $this->toJson("Cuenta", $result);
@@ -82,15 +82,15 @@ class AccountDao
         $statement = $this->conection->prepare($sql);
         $statement->execute();
 
-        $result = $statement->fetch();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $idPersona = $result[0]['idPersona'];
-        $result[0]['data_fk'] = $this->getPerson($idPersona);
+        $result[0]['Titular'] = $this->person->getBy("id", $idPersona);
 
         if ($result == false) {
             return null;
         }
 
-        return $this->toJson("Cuenta", $result);
+        return $result;
     }
 
 
@@ -110,11 +110,9 @@ class AccountDao
                 $statement->bindParam(6, $data['email']);
                 $statement->execute();
 
-                $persona = $this->person->getBy("id", $data['idPersona']);
                 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-                $result[0]["Titular"] = $persona[0];
-
-                return $this->toJson("Datos ingresados", $result);
+                $data["Titular"] = $persona;
+                return $this->toJson("Datos ingresados", $data);
             }
             return $this->toJson("Error", "No existe una persona registrada con el id indicado");
         }
@@ -136,7 +134,7 @@ class AccountDao
 
             $statement->execute();
 
-            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $result = $this->getAccount($id);
             $persona = $this->person->getBy("id", $result[0]['idPersona']);
             $result[0]["Titular"] = $persona[0];
             return $this->toJson("Registro actualizado", $result);

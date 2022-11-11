@@ -92,7 +92,7 @@ class PersonDao
             $statement->bindParam(2, $data['nombres']);
             $statement->bindParam(3, $data['apellidos']);
             $statement->execute();
-            return $this->toJson("Datos ingresados", $this->toJson("Persona", $data));
+            return $this->toJson("Datos ingresados", $data);
         }
         return $this->toJson("Error", $validateMessage);
     }
@@ -111,7 +111,7 @@ class PersonDao
 
             $statement->execute();
 
-            return $this->toJson("Registro actualizado", $this->toJson("Persona", $data));
+            return $this->toJson("Registro actualizado", $data);
         }
         return $this->toJson("Error", $validateMessage);
     }
@@ -126,9 +126,10 @@ class PersonDao
             $statement->bindParam(1, $id);
 
             $statement->execute();
-            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-            return $this->toJson("Registro eliminado", $result);
+            return $this->toJson("Registro eliminado", $result[0]);
         }
         return $this->toJson("Error", "El ID de persona ingresado no existe en la base de datos");
     }
 }
+
+?> 
