@@ -1,6 +1,7 @@
 <?php
 require_once 'controller/accountController.php';
 require_once 'controller/personController.php';
+require_once 'controller/reportController.php';
 
 $ruta = explode("/", $_SERVER['REQUEST_URI']);
 
@@ -46,7 +47,8 @@ if (sizeof($ruta) <= 2) {
                 echo "Enpoint no valido";
             }
         }
-    } else if (hash_equals("account", $ruta[2])) {
+    } 
+    else if (hash_equals("account", $ruta[2])) {
         $account = new AccountController();
         //Se asegura que la ruta contenga un endpoint
         if (sizeof($ruta) > 2) {
@@ -82,6 +84,16 @@ if (sizeof($ruta) <= 2) {
             } else {
                 echo "Enpoint no valido";
             }
+        }
+    } 
+    else if (hash_equals("report", $ruta[2])) {
+        $report = new ReportController();
+        if (sizeof($ruta) > 2) {
+            //endpoint para listar todas las cuentas registradas en la base de datos
+            if (hash_equals("getReport", $ruta[3])) {
+                $data = json_decode(file_get_contents("php://input"), true);
+                echo ($report->report($data));
+            } 
         }
     }
 }
