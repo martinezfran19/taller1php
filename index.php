@@ -16,6 +16,7 @@ if (sizeof($ruta) <= 2) {
         if (sizeof($ruta) > 2) {
             //endpoint para listar todas las personas registradas en la base de datos
             if (hash_equals("getAll", $ruta[3]) || hash_equals("", $ruta[3])) {
+                include('view/createPerson.php');
                 echo ($person->list());
             } 
             //endpoint para registrar una nueva persona (Recibe datos por POST)

@@ -7,7 +7,7 @@ class Conection
         $host = "localhost";
         $dbName = "banco";
         $user = "root";
-        $password = "";
+        $password = "root";
         
         try {
             return new PDO("mysql:host={$host};dbname={$dbName}", "{$user}", "{$password}");
